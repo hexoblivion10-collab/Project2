@@ -1,68 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>History - Pesa Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        body{ font-family:'Poppins', sans-serif; max-width:500px; margin:30px auto; background:white; padding:20px; }
-        h1{ text-align:center; color:darkcyan; }
-        nav{ display:flex; gap:10px; justify-content:center; margin-bottom:20px; }
-        select, button{ padding:8px 12px; border-radius:6px; }
-        #list li{ margin:8px 0; display:flex; justify-content:space-between; }
-        footer{ text-align:center; margin-top:40px; padding:15px; border-top:1px solid white; }
-    </style>
+<title>History</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
-<h1>History - Monthly Filter</h1>
-<nav>
-  <a href="index.html"><button>Dashboard</button></a>
-  <a href="history.html"><button>History</button></a>
-  <a href="report.html"><button>Report</button></a>
-</nav>
+<body style="font-family:'Poppins', Arial; max-width:700px; margin:50px auto">
+<h1 style="text-align:center; color:teal">
+ <i class="fa-solid fa-clock-rotate-left"></i> History - Monthly Filter</h1>
+<div style="text-align:center">
+<a href="index.html"><button>Dashboard</button></a>
+<a href="history.html"><button>History</button></a>
+<a href="report.html"><button>Report</button></a>
+<br><br>
 <select id="monthFilter">
-  <option value="all">All Months</option>
-  <option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option>
+<option value="all">All Months</option>
+<option value="0">Jan</option><option value="1">Feb</option><option value="2">Mar</option>
+<option value="3">Apr</option><option value="4">May</option><option value="5">Jun</option>
+<option value="6">Jul</option><option value="7">Aug</option><option value="8">Sep</option>
+<option value="9">Oct</option><option value="10">Nov</option><option value="11">Dec</option>
 </select>
+</div>
 <ul id="list"></ul>
-<footer>
-  <p><i class="fa-solid fa-envelope"></i> hexoblivion10@gmail.com</p>
-  <p>Created by Brown</p>
+<footer style="text-align:center; margin-top:50px; padding:50px; border-top:1px solid white;">
+<p><i class="fa-solid fa-envelope"></i> hexoblivion10@gmail.com</p>
+<p>Created by Brown</p>
 </footer>
 <script>
-let transactions = JSON.parse(localStorage.getItem("pesaTransactions")) || [];
-const list = document.getElementById("list");
-const monthFilter = document.getElementById("monthFilter");
-function show() {
+let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+let list = document.getElementById("list");
+let filter = document.getElementById("monthFilter");
+
+function render(){
   list.innerHTML = "";
-  let filtered = [];
-  if (monthFilter.value === "all") { filtered = transactions; } else {
-    for (let i = 0; i < transactions.length; i++) {
-      let t = transactions[i];
-      let transMonth = new Date(t.date).getMonth();
-      if (transMonth == monthFilter.value) { filtered.push(t); }
+  for(let i = 0; i < transactions.length; i++){
+    let t = transactions[i];
+    let month = new Date(t.date).getMonth();
+    
+    if(filter.value === "all" || month == filter.value){
+      let prettyDate = t.date;
+      if(prettyDate.length > 10){ prettyDate = prettyDate.split("T")[0]; }
+      let li = document.createElement("li");
+      li.textContent = t.description + " - " + t.amount + " - " + t.type + " - " + prettyDate;
+      list.appendChild(li);
     }
   }
-  for (let i = 0; i < filtered.length; i++) {
-    let t = filtered[i];
-    let li = document.createElement("li");
-    li.textContent = t.description + " - " + t.amount + " - " + t.category;
-    let b = document.createElement("button"); b.textContent = "Delete";
-    b.onclick = function() {
-      let newList = [];
-      for (let i = 0; i < transactions.length; i++) {
-        if (transactions[i].id !== t.id) { newList.push(transactions[i]); }
-      }
-      transactions = newList;
-      localStorage.setItem("pesaTransactions", JSON.stringify(transactions));
-      show();
-    };
-    li.appendChild(b); list.appendChild(li);
+  if(list.innerHTML === ""){
+    list.innerHTML = "<li>No transactions for this month</li>";
   }
 }
-monthFilter.onchange = function() { show(); };
-show();
+filter.onchange = render;
+render();
 </script>
 </body>
 </html>

@@ -1,62 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Report - Pesa Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        body{ font-family:'Poppins', sans-serif; max-width:500px; margin:30px auto; background:white; padding:20px; }
-        h1{ text-align:center; color:darkcyan; }
-        nav{ display:flex; gap:10px; justify-content:center; margin-bottom:20px; }
-        #balanceBox{ background:white; padding:15px; border-radius:10px; margin-bottom:15px; }
-        #categoryReport p{ background:white; padding:8px; border-radius:5px; }
-        footer{ text-align:center; margin-top:40px; padding:15px; border-top:1px solid #eee; }
-    </style>
+<title>Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
-<h1>Report - Spending by Category</h1>
-<nav>
-  <a href="index.html"><button>Dashboard</button></a>
-  <a href="history.html"><button>History</button></a>
-  <a href="report.html"><button>Report</button></a>
-</nav>
-<div id="balanceBox">
-  <div>Total Income: <span id="income">0</span></div>
-  <div>Total Expense: <span id="expense">0</span></div>
-  <div><b>Balance: <span id="balance">0</span></b></div>
+<body style="font-family:'Poppins', Arial; max-width:500px; margin:20px auto">
+<h1 style="text-align:center; color:teal">
+  <i class="fa-solid fa-chart-pie"></i> Report</h1>
+<div style="text-align:center">
+<a href="index.html"><button>Dashboard</button></a>
+<a href="history.html"><button>History</button></a>
+<a href="report.html"><button>Report</button></a>
 </div>
-<h3>Spending by Category</h3>
+<p>Total Income: <span id="income">0</span></p>
+<p>Total Expense: <span id="expense">0</span></p>
+<p><b>Balance: <span id="balance">0</span></b></p>
+<h3>Spending by Type</h3>
 <div id="categoryReport"></div>
-<footer>
-  <p><i class="fa-solid fa-envelope"></i> hexoblivion10@gmail.com</p>
-  <p>Created by Brown - Final Project 2026</p>
+<footer style="text-align:center; margin-top:50px; padding:50px; border-top:1px solid white;">
+<p><i class="fa-solid fa-envelope"></i> hexoblivion10@gmail.com</p>
+<p>Created by Brown</p>
 </footer>
 <script>
-let transactions = JSON.parse(localStorage.getItem("pesaTransactions")) || [];
-let totalIncome = 0; let totalExpense = 0;
-for (let i = 0; i < transactions.length; i++) {
-  let t = transactions[i]; let amount = Number(t.amount); if (isNaN(amount)) { amount = 0; }
-  if (t.type === "income") { totalIncome = totalIncome + amount; } else { totalExpense = totalExpense + amount; }
-}
-document.getElementById("income").textContent = totalIncome;
-document.getElementById("expense").textContent = totalExpense;
-document.getElementById("balance").textContent = totalIncome - totalExpense;
-let categories = {};
-for (let i = 0; i < transactions.length; i++) {
+let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+let income = 0;
+let expense = 0;
+
+for(let i = 0; i < transactions.length; i++){
   let t = transactions[i];
-  if (t.type === "expense") {
-    let amount = Number(t.amount); if (isNaN(amount)) { amount = 0; }
-    if (categories[t.category] === undefined) { categories[t.category] = 0; }
-    categories[t.category] = categories[t.category] + amount;
+  if(t.type === "income"){
+    income = income + Number(t.amount);
+  } else {
+    expense = expense + Number(t.amount);
   }
 }
-let reportDiv = document.getElementById("categoryReport");
-for (let cat in categories) {
-  let p = document.createElement("p");
-  p.innerHTML = '<i class="fa-solid fa-coins"></i> ' + cat + ': ' + categories[cat];
-  reportDiv.appendChild(p);
-}
+document.getElementById("income").textContent=income;
+document.getElementById("expense").textContent=expense;
+document.getElementById("balance").textContent=income-expense;
+
+let div=document.getElementById("categoryReport");
+let p1 = document.createElement("p");
+p1.textContent = "Income : " + income;
+let p2 = document.createElement("p");
+p2.textContent = "Expense : " + expense;
+div.appendChild(p1);
+div.appendChild(p2);
 </script>
 </body>
 </html>

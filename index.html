@@ -1,40 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pesa Tracker - Dashboard</title>
+<title>My Expense Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-body{ font-family: Arial; max-width:500px; margin:30px auto; background:white; padding:20px; }
-h1{ text-align:center; color: rgb(6, 124, 170); }
-#balanceBox{ display:flex; justify-content:space-between; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 12px black; margin-bottom:20px; }
-#balance{ color:gold; } #income{ color:forestgreen; } #expense{ color:red; }
-nav{display:flex; gap:10px; justify-content:center; margin-bottom:15px; }
-nav a button{ background:rgb(6,124,170); }
-form{ background:white; padding:15px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.2); display:flex; gap:8px; flex-wrap:wrap; }
-input, select, button{ padding:10px; border:1px solid white; border-radius:8px; }
-button{ background:forestgreen; color:white; cursor:pointer; font-weight:bold; }
-li{ display:flex; justify-content:space-between; background:white; padding:12px; margin-bottom:8px; border-radius:8px; border-left:5px solid; list-style:none; }
+body{font-family:'Poppins', Arial;
+ max-width:500px;
+ margin:20px auto;
+  padding:10px
+}
+nav{text-align:center
+}
+#box{display:flex;
+   justify-content:space-between;
+   background:white;
+   padding:10px}
+li{display:flex;
+ justify-content:space-between;
+  background:white;
+   margin:20px 0;
+    padding:10px
+    }
 </style>
 </head>
 <body>
-<h1>My Expense Tracker</h1>
+<h1 style="text-align:center"><i class="fa-solid fa-wallet"></i> My Expense Tracker</h1>
 <nav>
-  <a href="index.html"><button>Dashboard</button></a>
-  <a href="history.html"><button>History</button></a>
-  <a href="report.html"><button>Report</button></a>
+<a href="index.html"><button>Dashboard</button></a>
+<a href="history.html"><button>History</button></a>
+<a href="report.html"><button>Report</button></a>
 </nav>
-<div id="balanceBox">
+<div id="box">
 <div>Balance: <span id="balance">0</span></div>
 <div>Income: <span id="income">0</span></div>
 <div>Expense: <span id="expense">0</span></div>
 </div>
+<br>
 <form id="form">
-<input type="text" id="descInput" placeholder="e.g. Food" required>
-<input type="number" id="amountInput" placeholder="e.g. 200" required>
-<select name="category"><option value="Food">Food</option><option value="Transport">Transport</option><option value="Rent">Rent</option><option value="Other">Other</option></select>
-<select name="type"><option value="expense">Expense</option><option value="income">Income</option></select>
+<input type="text" id="description" placeholder="Description" required>
+<input type="number" id="amount" placeholder="Amount" required>
+<select id="type">
+  <option value="expense">Expense</option>
+  <option value="income">Income</option>
+</select>
+<input type="date" id="dateInput" required>
 <button type="submit">Add</button>
 </form>
 <ul id="list"></ul>
+<footer style="text-align:center;
+ margin-top:20px;
+ padding:10px;
+  border-top:1px solid white;">
+<p><i class="fa-solid fa-envelope"></i> hexoblivion10@gmail.com</p>
+<p>Created by Brown</p>
+</footer>
 <script src="app.js"></script>
 </body>
 </html>
