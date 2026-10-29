@@ -1,4 +1,9 @@
+// Expense Tracker - Handles DOM manipulation, Event Handling, and localStorage persistence
+
+// Load transactions from localStorage - Data Persistence across pages
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+// DOM manipulation - Getting elements from HTML
 let form = document.getElementById("form");
 let list = document.getElementById("list");
 let balanceSpan = document.getElementById("balance");
@@ -6,65 +11,58 @@ let incomeSpan = document.getElementById("income");
 let expenseSpan = document.getElementById("expense");
 let errorMsg = document.getElementById("errorMsg");
 
+// Event Handling - Listens for form submit
 form.onsubmit = function(e){
-  e.preventDefault();
-  let desc = document.getElementById("description").value.trim();
-  let amount = document.getElementById("amount").value;
-  let type = document.getElementById("type").value;
-  let date = document.getElementById("dateInput").value;
+    e.preventDefault();
+    let desc = document.getElementById("description").value.trim();
+    let amount = document.getElementById("amount").value;
+    let type = document.getElementById("type").value;
+    let date = document.getElementById("dateInput").value;
 
-  if(desc === ""){
-    errorMsg.textContent = "Description cannot be empty!";
-    return;
-  }
-  if(Number(amount) <= 0){
-    errorMsg.textContent = "Amount must be greater than 0!";
-    return;
-  }
-  if(date === ""){
-    errorMsg.textContent = "Please select a date!";
-    return;
-  }
-  errorMsg.textContent = "";
+    // Validation
+    if(!desc || !amount || !date){
+        errorMsg.textContent = "Please fill all fields";
+        return;
+    }
 
-  let newItem = {id:Date.now(), description:desc, amount:amount, type:type, date:date};
-  transactions.push(newItem);
-  localStorage.setItem("transactions", JSON.stringify(transactions));
-  form.reset();
-  renderList();
-};
+    // Add transaction object
+    const transaction = {
+        id: Date.now(),
+        description: desc,
+        amount: Number(amount),
+        type: type,
+        date: date
+    };
 
-function renderList(){
-  list.innerHTML = "";
-  let income = 0;
-  let expense = 0;
-  for(let i = 0; i < transactions.length; i++){
-    let t = transactions[i];
-    if(t.type === "income"){ income = income + Number(t.amount); }
-    else { expense = expense + Number(t.amount); }
+    transactions.push(transaction);
 
-    let prettyDate = t.date.split("T")[0];
-    let li = document.createElement("li");
-    li.textContent = t.description + " - " + t.amount + " - " + t.type + " - " + prettyDate + " ";
-
-    let btn = document.createElement("button");
-    btn.textContent = "Delete";
-    btn.addEventListener("click", function(){
-      let newList = [];
-      for(let item of transactions){
-        if(item.id !== t.id){
-          newList.push(item);
-        }
-      }
-      transactions = newList;
-      localStorage.setItem("transactions", JSON.stringify(transactions));
-      renderList();
-    });
-    li.appendChild(btn);
-    list.appendChild(li);
-  }
-  incomeSpan.textContent = income;
-  expenseSpan.textContent = expense;
-  balanceSpan.textContent = income - expense;
+    // Save to localStorage - So data shows on History and Report pages
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+    
+    // Update UI - DOM manipulation
+    renderList();
+    form.reset();
 }
+
+// Function to display transactions - Manipulates DOM
+function renderList(){
+    list.innerHTML = "";
+    let income = 0;
+    let expense = 0;
+
+    transactions.forEach(t => {
+        if(t.type === "income") income += t.amount;
+        else expense += t.amount;
+
+                const li = document.createElement("li");
+        li.textContent = t.description + " - " + t.amount + " - " + t.type;
+        list.appendChild(li);
+
+    // Calculate balance
+    balanceSpan.textContent = income - expense;
+    incomeSpan.textContent = income;
+    expenseSpan.textContent = expense;
+}
+
+// Initial render
 renderList();
