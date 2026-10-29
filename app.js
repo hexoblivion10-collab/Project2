@@ -13,7 +13,6 @@ form.onsubmit = function(e){
   let type = document.getElementById("type").value;
   let date = document.getElementById("dateInput").value;
 
-  // Form Validation - REQUIRED by rubric
   if(desc === ""){
     errorMsg.textContent = "Description cannot be empty!";
     return;
@@ -44,19 +43,18 @@ function renderList(){
     if(t.type === "income"){ income = income + Number(t.amount); }
     else { expense = expense + Number(t.amount); }
 
-    let prettyDate = t.date;
-    if(prettyDate.length > 10){ prettyDate = prettyDate.split("T")[0]; }
-
+    let prettyDate = t.date.split("T")[0];
     let li = document.createElement("li");
     li.textContent = t.description + " - " + t.amount + " - " + t.type + " - " + prettyDate + " ";
 
     let btn = document.createElement("button");
     btn.textContent = "Delete";
-    // Event handling - REQUIRED
     btn.addEventListener("click", function(){
       let newList = [];
-      for(let i = 0; i < transactions.length; i++){
-        if(transactions[i].id !== t.id){ newList.push(transactions[i]); }
+      for(let item of transactions){
+        if(item.id !== t.id){
+          newList.push(item);
+        }
       }
       transactions = newList;
       localStorage.setItem("transactions", JSON.stringify(transactions));

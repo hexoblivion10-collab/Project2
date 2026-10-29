@@ -1,8 +1,33 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>History</title><link rel="stylesheet" href="style.css"></head>
+<html>
+  <head><meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-<header><h1>Expense History</h1><nav><a href="index.html"><button>Dashboard</button></a><a href="history.html"><button>History</button></a><a href="report.html"><button>Report</button></a></nav></header>
-<main><section><label>Filter by Month:</label><select id="monthFilter"><option value="all">All Months</option><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select><ul id="historyList"></ul></section></main>
+<header><h1>Expense History</h1>
+  <nav><a href="index.html"><button>Dashboard</button>
+</a><a href="history.html"><button>History</button>
+</a><a href="report.html"><button>Report</button></a>
+</nav>
+</header>
+<main><section><label>Filter by Month:</label><select id="monthFilter">
+  <option value="all">All Months</option>
+  <option value="01">January</option>
+  <option value="02">February</option>
+  <option value="03">March</option>
+  <option value="04">April</option>
+  <option value="05">May</option>
+  <option value="06">June</option>
+  <option value="07">July</option>
+  <option value="08">August</option>
+  <option value="09">September</option>
+  <option value="10">October</option>
+  <option value="11">November</option>
+  <option value="12">December</option>
+</select>
+  <ul id="historyList"></ul></section></main>
 <footer><p>Created by Brown</p></footer>
 <script>
 let transactions=JSON.parse(localStorage.getItem("transactions"))||[];
@@ -22,6 +47,9 @@ function renderHistory(filterMonth){
   }
  }
 }
-monthFilter.addEventListener("change",function(){renderHistory(monthFilter.value);});
+monthFilter.addEventListener("change",function()
+{renderHistory(monthFilter.value);});
 renderHistory("all");
-</script></body></html>
+</script>
+</body>
+</html>
