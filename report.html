@@ -1,51 +1,23 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>Report</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-<body style="font-family:'Poppins', Arial; max-width:500px; margin:20px auto">
-<h1 style="text-align:center; color:teal">
-  <i class="fa-solid fa-chart-pie"></i> Report</h1>
-<div style="text-align:center">
-<a href="index.html"><button>Dashboard</button></a>
-<a href="history.html"><button>History</button></a>
-<a href="report.html"><button>Report</button></a>
-</div>
-<p>Total Income: <span id="income">0</span></p>
-<p>Total Expense: <span id="expense">0</span></p>
-<p><b>Balance: <span id="balance">0</span></b></p>
-<h3>Spending by Type</h3>
-<div id="categoryReport"></div>
-<footer style="text-align:center; margin-top:50px; padding:50px; border-top:1px solid white;">
-<p><i class="fa-solid fa-envelope"></i> hexoblivion10@gmail.com</p>
-<p>Created by Brown</p>
-</footer>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Report</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><h1>Monthly Report</h1><nav><a href="index.html"><button>Dashboard</button></a><a href="history.html"><button>History</button></a><a href="report.html"><button>Report</button></a></nav></header>
+<main><section><ul id="reportList"></ul><h3>Total Income: <span id="totalIncome">0</span></h3><h3>Total Expense: <span id="totalExpense">0</span></h3><h3>Balance: <span id="totalBalance">0</span></h3></section></main>
+<footer><p>Created by Brown</p></footer>
 <script>
-let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-let income = 0;
-let expense = 0;
-
-for(let i = 0; i < transactions.length; i++){
-  let t = transactions[i];
-  if(t.type === "income"){
-    income = income + Number(t.amount);
-  } else {
-    expense = expense + Number(t.amount);
-  }
+let transactions=JSON.parse(localStorage.getItem("transactions"))||[];
+let reportList=document.getElementById("reportList");
+let income=0,expense=0;
+reportList.innerHTML="";
+for(let i=0;i<transactions.length;i++){
+ let t=transactions[i];
+ if(t.type==="income") income+=Number(t.amount); else expense+=Number(t.amount);
+ let datePart=t.date.length>10?t.date.split("T")[0]:t.date;
+ let li=document.createElement("li");
+ li.textContent=t.description+" - "+t.amount+" - "+t.type+" - "+datePart;
+ reportList.appendChild(li);
 }
-document.getElementById("income").textContent=income;
-document.getElementById("expense").textContent=expense;
-document.getElementById("balance").textContent=income-expense;
-
-let div=document.getElementById("categoryReport");
-let p1 = document.createElement("p");
-p1.textContent = "Income : " + income;
-let p2 = document.createElement("p");
-p2.textContent = "Expense : " + expense;
-div.appendChild(p1);
-div.appendChild(p2);
-</script>
-</body>
-</html>
+document.getElementById("totalIncome").textContent=income;
+document.getElementById("totalExpense").textContent=expense;
+document.getElementById("totalBalance").textContent=income-expense;
+</script></body></html>

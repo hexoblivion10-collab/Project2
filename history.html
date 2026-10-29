@@ -1,56 +1,27 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>History</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-<body style="font-family:'Poppins', Arial; max-width:700px; margin:50px auto">
-<h1 style="text-align:center; color:teal">
- <i class="fa-solid fa-clock-rotate-left"></i> History - Monthly Filter</h1>
-<div style="text-align:center">
-<a href="index.html"><button>Dashboard</button></a>
-<a href="history.html"><button>History</button></a>
-<a href="report.html"><button>Report</button></a>
-<br><br>
-<select id="monthFilter">
-<option value="all">All Months</option>
-<option value="0">Jan</option><option value="1">Feb</option><option value="2">Mar</option>
-<option value="3">Apr</option><option value="4">May</option><option value="5">Jun</option>
-<option value="6">Jul</option><option value="7">Aug</option><option value="8">Sep</option>
-<option value="9">Oct</option><option value="10">Nov</option><option value="11">Dec</option>
-</select>
-</div>
-<ul id="list"></ul>
-<footer style="text-align:center; margin-top:50px; padding:50px; border-top:1px solid white;">
-<p><i class="fa-solid fa-envelope"></i> hexoblivion10@gmail.com</p>
-<p>Created by Brown</p>
-</footer>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>History</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><h1>Expense History</h1><nav><a href="index.html"><button>Dashboard</button></a><a href="history.html"><button>History</button></a><a href="report.html"><button>Report</button></a></nav></header>
+<main><section><label>Filter by Month:</label><select id="monthFilter"><option value="all">All Months</option><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select><ul id="historyList"></ul></section></main>
+<footer><p>Created by Brown</p></footer>
 <script>
-let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-let list = document.getElementById("list");
-let filter = document.getElementById("monthFilter");
-
-function render(){
-  list.innerHTML = "";
-  for(let i = 0; i < transactions.length; i++){
-    let t = transactions[i];
-    let month = new Date(t.date).getMonth();
-    
-    if(filter.value === "all" || month == filter.value){
-      let prettyDate = t.date;
-      if(prettyDate.length > 10){ prettyDate = prettyDate.split("T")[0]; }
-      let li = document.createElement("li");
-      li.textContent = t.description + " - " + t.amount + " - " + t.type + " - " + prettyDate;
-      list.appendChild(li);
-    }
+let transactions=JSON.parse(localStorage.getItem("transactions"))||[];
+let historyList=document.getElementById("historyList");
+let monthFilter=document.getElementById("monthFilter");
+function renderHistory(filterMonth){
+ historyList.innerHTML="";
+ for(let i=0;i<transactions.length;i++){
+  let t=transactions[i];
+  let datePart=t.date.length>10?t.date.split("T")[0]:t.date;
+  let parts=datePart.split("-");
+  let month=parts[1];
+  if(filterMonth==="all"||month===filterMonth){
+    let li=document.createElement("li");
+    li.textContent=t.description+" - "+t.amount+" - "+t.type+" - "+datePart;
+    historyList.appendChild(li);
   }
-  if(list.innerHTML === ""){
-    list.innerHTML = "<li>No transactions for this month</li>";
-  }
+ }
 }
-filter.onchange = render;
-render();
-</script>
-</body>
-</html>
+monthFilter.addEventListener("change",function(){renderHistory(monthFilter.value);});
+renderHistory("all");
+</script></body></html>
