@@ -1,57 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Expense Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-body{font-family:'Poppins', Arial;
- max-width:500px;
- margin:20px auto;
-  padding:10px
-}
-nav{text-align:center
-}
-#box{display:flex;
-   justify-content:space-between;
-   background:white;
-   padding:10px}
-li{display:flex;
- justify-content:space-between;
-  background:white;
-   margin:20px 0;
-    padding:10px
-    }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1 style="text-align:center"><i class="fa-solid fa-wallet"></i> My Expense Tracker</h1>
+<header>
+<h1><i class="fa-solid fa-wallet"></i> My Expense Tracker</h1>
 <nav>
 <a href="index.html"><button>Dashboard</button></a>
 <a href="history.html"><button>History</button></a>
 <a href="report.html"><button>Report</button></a>
 </nav>
-<div id="box">
+</header>
+
+<main>
+<section id="box">
 <div>Balance: <span id="balance">0</span></div>
 <div>Income: <span id="income">0</span></div>
 <div>Expense: <span id="expense">0</span></div>
-</div>
-<br>
+</section>
+
+<section>
+<h3>Add Transaction</h3>
+<p id="errorMsg"></p>
 <form id="form">
 <input type="text" id="description" placeholder="Description" required>
-<input type="number" id="amount" placeholder="Amount" required>
-<select id="type">
-  <option value="expense">Expense</option>
-  <option value="income">Income</option>
-</select>
+<input type="number" id="amount" placeholder="Amount" required min="1">
+<select id="type"><option value="expense">Expense</option><option value="income">Income</option></select>
 <input type="date" id="dateInput" required>
 <button type="submit">Add</button>
 </form>
+</section>
+
+<section>
+<h3>Transactions</h3>
 <ul id="list"></ul>
-<footer style="text-align:center;
- margin-top:20px;
- padding:10px;
-  border-top:1px solid white;">
+</section>
+</main>
+
+<footer>
 <p><i class="fa-solid fa-envelope"></i> hexoblivion10@gmail.com</p>
 <p>Created by Brown</p>
 </footer>
